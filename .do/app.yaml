@@ -1,0 +1,39 @@
+# DigitalOcean App Platform Configuration
+name: ecommerce-backend
+services:
+- name: backend
+  source_dir: /
+  github:
+    repo: your-github-username/your-repo-name
+    branch: main
+  run_command: java -jar target/backend-0.0.1-SNAPSHOT.jar
+  build_command: ./mvnw clean package -DskipTests
+  environment_slug: java
+  instance_count: 1
+  instance_size_slug: basic-xxs
+  http_port: 8080
+  health_check:
+    http_path: /actuator/health
+  envs:
+  - key: SPRING_PROFILES_ACTIVE
+    value: prod
+  - key: PORT
+    value: "8080"
+  - key: DB_URL
+    value: ${db.DATABASE_URL}
+  - key: DB_USERNAME
+    value: ${db.USERNAME}
+  - key: DB_PASSWORD
+    value: ${db.PASSWORD}
+  - key: JWT_SECRET
+    value: your_jwt_secret_here
+    type: SECRET
+  - key: JWT_EXPIRATION
+    value: "86400000"
+
+databases:
+- name: db
+  engine: PG
+  version: "15"
+  size: basic-xs
+  num_nodes: 1

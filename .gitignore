@@ -34,3 +34,22 @@ build/
 
 # Don't commit local env files
 .env
+.env.prod
+.env.local
+.env.production
+
+# Docker
+.dockerignore
+
+# Production secrets
+*.key
+*.pem
+secrets/
+
+# IDE files
+.vscode/
+.idea/
+
+# OS files
+.DS_Store
+Thumbs.db

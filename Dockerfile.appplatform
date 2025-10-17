@@ -1,0 +1,23 @@
+# Build configuration for DigitalOcean App Platform
+FROM openjdk:21-jdk-slim
+
+WORKDIR /app
+
+# Copy Maven files
+COPY pom.xml .
+COPY mvnw .
+COPY mvnw.cmd .
+COPY .mvn .mvn
+
+# Download dependencies
+RUN ./mvnw dependency:go-offline -B
+
+# Copy source code
+COPY src src
+
+# Build application
+RUN ./mvnw clean package -DskipTests
+
+# Runtime
+EXPOSE 8080
+CMD ["java", "-jar", "target/backend-0.0.1-SNAPSHOT.jar"]

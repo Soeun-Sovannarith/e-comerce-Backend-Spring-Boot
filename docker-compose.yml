@@ -1,29 +1,27 @@
-version: '3.8'
-
+version: '3.9'
 services:
   db:
-    image: postgres:16
+    image: postgres:latest
     container_name: ecommerce-db
-    env_file:
-      - .env
+    environment:
+      POSTGRES_DB: ecommerce_db
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: 1111
     ports:
       - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
-    restart: always
 
   backend:
-    build:
-      context: /Users/ppc/Downloads/backend
-      dockerfile: Dockerfile
-    container_name: ecommerce-backend
-    env_file:
-      - /Users/ppc/Downloads/backend/.env
+    build: ./backend
     ports:
       - "8080:8080"
+    environment:
+      DB_URL: jdbc:postgresql://db:5432/ecommerce_db
+      DB_USERNAME: postgres
+      DB_PASSWORD: 1111
     depends_on:
       - db
-    restart: always
 
 volumes:
   postgres_data:

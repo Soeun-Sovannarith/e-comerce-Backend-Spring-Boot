@@ -7,9 +7,9 @@ CREATE DATABASE IF NOT EXISTS ecommerce_db;
 -- Connect to the database and create tables
 -- Use: \c ecommerce_db (in psql) or switch to ecommerce_db database in your GUI tool
 
--- 1. Create Users Table (Authentication)
 CREATE TABLE users (
-    id BIGSERIAL PRIMARY KEY,
+-- 1. Create Users Table (Authentication)
+                       id BIGSERIAL PRIMARY KEY,
     username VARCHAR(20) UNIQUE NOT NULL,
     email VARCHAR(255) UNIQUE NOT NULL,
     password VARCHAR(255) NOT NULL,

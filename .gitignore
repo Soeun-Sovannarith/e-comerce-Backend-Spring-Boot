@@ -53,3 +53,9 @@ secrets/
 # OS files
 .DS_Store
 Thumbs.db
+
+.SECURITY_IMPLEMENTATION.md
+
+BACKEND_LOGIN_UPDATE.md
+
+./3_complete_database_schema.sql

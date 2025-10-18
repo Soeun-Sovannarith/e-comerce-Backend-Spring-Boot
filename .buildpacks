@@ -1,7 +1,0 @@
-# Buildpack detection hints for DigitalOcean App Platform
-# This file helps the platform detect the correct buildpack
-
-# Java/Maven project indicators
-echo "Maven project detected - pom.xml present"
-echo "Java version: 21"
-echo "Build tool: Maven"

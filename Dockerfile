@@ -1,29 +1,13 @@
-# Use official OpenJDK runtime as base image - Java 21 LTS for better production support
-FROM openjdk:21-jdk-slim
-
-# Set working directory
+# ===== BUILD STAGE =====
+FROM eclipse-temurin:21-jdk AS build
 WORKDIR /app
-
-# Copy Maven wrapper and pom.xml
-COPY mvnw .
-COPY mvnw.cmd .
-COPY .mvn .mvn
-COPY pom.xml .
-
-# Download dependencies (this layer will be cached if pom.xml doesn't change)
-RUN ./mvnw dependency:go-offline -B
-
-# Copy source code
-COPY src src
-
-# Build the application
+COPY . .
+RUN chmod +x mvnw
 RUN ./mvnw clean package -DskipTests
 
-# Expose port
+# ===== RUN STAGE =====
+FROM eclipse-temurin:21-jdk
+WORKDIR /app
+COPY --from=build /app/target/*.jar app.jar
 EXPOSE 8080
-
-# Set production profile
-ENV SPRING_PROFILES_ACTIVE=prod
-
-# Run the application
-CMD ["java", "-jar", "target/backend-0.0.1-SNAPSHOT.jar"]
+ENTRYPOINT ["java", "-jar", "app.jar"]
